@@ -10,6 +10,8 @@ from vlookup import perform_vlookup
 import pygame
 
 
+# from queries import new_function
+
 # plays last Christmas when the gui is opened lol
 def play_background_music():
     pygame.mixer.init()
@@ -47,7 +49,6 @@ def sort_excel(file_path, sort_columns, ascending_order, file_type=""):
 
         # messagebox.showinfo("Success!", f"Success! {file_type} file sorted and saved successfully.")
         # Don't use we don't need both success messages
-
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
@@ -130,7 +131,7 @@ def merge_files_and_create_lost_items(folder_path):
     # Save the active workbook with the new sheets
     try:
         active_workbook.save(current_contract_path)
-        messagebox.showinfo("Success!", "Files merged and sheets created successfully in order.")
+        # messagebox.showinfo("Success!", "Files merged and sheets created successfully in order.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
@@ -155,6 +156,11 @@ def process_folder(folder_path):
     merge_files_and_create_lost_items(folder_path)
 
 
+def print_statement():
+    print("Hello")
+    pass
+
+
 def setup_gui(root):
     style = ttk.Style()
     root.configure(bg="white")
@@ -165,7 +171,7 @@ def setup_gui(root):
                             font=("Segoe UI", 36, "underline"), background="white", foreground="#103d81")
     title_label.pack(pady=20)
 
-    run_queries_button = ttk.Button(root, text="Run Queries", command=print("run queries"), style="TButton")
+    run_queries_button = ttk.Button(root, text="Run Queries", command=print_statement, style="TButton")
     run_queries_button.pack(pady=20)
 
     description_label = ttk.Label(root,
