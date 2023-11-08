@@ -11,7 +11,7 @@ def perform_vlookup(button_to_disable):
     try:
         # Ask the user for the contract file
         contract_file = filedialog.askopenfilename(title="Select the contract file, where we need a vlookup",
-                                                   initialdir="P:\Partnership_Python_Projects\Creation\test_001")
+                                                   initialdir="P:\Partnership_Python_Projects\Creation\python_drag_&_drop\test")
 
         # Load 'Active Supplier Contracts' and 'Prev Contract' sheets
         active_supplier_df = pd.read_excel(contract_file, sheet_name='Active Supplier Contracts', header=1)
@@ -91,7 +91,7 @@ def perform_vlookup(button_to_disable):
 
         # Ask the user for the output file path
         output_file = filedialog.asksaveasfilename(defaultextension=".xlsx", title="Save the output file as",
-                                                   initialdir="P:\Partnership_Python_Projects\Creation\test_001")
+                                                   initialdir="P:\Partnership_Python_Projects\Creation\python_drag_&_drop\test")
 
         # Write all the DataFrames to the new Excel file in the specified order
         if output_file:

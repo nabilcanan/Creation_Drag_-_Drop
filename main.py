@@ -44,8 +44,10 @@ def sort_excel(file_path, sort_columns, ascending_order, file_type=""):
 
         # Save the sorted DataFrame back to the Excel file
         df.to_excel(file_path, index=False)
-        #
+
         # messagebox.showinfo("Success!", f"Success! {file_type} file sorted and saved successfully.")
+        # Don't use we don't need both success messages
+
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
@@ -102,7 +104,7 @@ def merge_files_and_create_lost_items(folder_path):
         messagebox.showerror("Error", "'IPN' column is missing in one of the contract files.")
         return
 
-    # Create a 'Lost Items' sheet
+    # Create a 'Lost Items' sheet, checked the IPN from both sheets
     lost_items_sheet = active_workbook.create_sheet('Lost Items')
     lost_items_df = prev_df[~prev_df['IPN'].isin(active_df['IPN'])]
     if not lost_items_df.empty:
@@ -142,6 +144,8 @@ def on_drop(event):
         messagebox.showerror("Error", "Please drop a folder, not files.")
 
 
+# path to process folder, drop-off created
+
 def process_folder(folder_path):
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
@@ -153,28 +157,33 @@ def process_folder(folder_path):
 
 def setup_gui(root):
     style = ttk.Style()
-    style.configure("TButton", font=("Arial", 16, "bold"), width=40, height=2)
-    style.map("TButton", foreground=[('active', 'red')], background=[('active', 'blue')])
-    style.configure("TButton", background="white")
+    root.configure(bg="white")
+    style.configure("TButton", font=("Roboto", 16, "bold"), width=40, height=40)
+    style.map("TButton", foreground=[('active', 'white')], background=[('active', '#007BFF')])
 
     title_label = ttk.Label(root, text="Welcome Partnership Team!",
-                            font=("Arial", 32, "underline"), background="white", foreground="#103d81")
-    title_label.pack(pady=10)
+                            font=("Segoe UI", 36, "underline"), background="white", foreground="#103d81")
+    title_label.pack(pady=20)
+
+    run_queries_button = ttk.Button(root, text="Run Queries", command=print("run queries"), style="TButton")
+    run_queries_button.pack(pady=20)
 
     description_label = ttk.Label(root,
                                   text="This tool allows you to sort your Excel files for our Creation \n"
-                                       "Contact Automatically once saved in your desired folder",
-                                  font=("Rupee", 18, "underline"), background="white", anchor="center",
-                                  justify="center", )
-    description_label.pack(pady=10)
+                                       "Contact Automatically once saved in your desired folder.\n "
+                                       "Please drop your folder below ↓",
+                                  font=("Roboto", 18), background="white", anchor="center",
+                                  justify="center")
+    description_label.pack(pady=20)
 
     # Create a label that will act as the drop area
-    drop_area = tk.Label(root, text='Drop Folder Here', pady=50, padx=50, relief="groove", borderwidth=2)
+    drop_area = tk.Label(root, text='Drop Folder Here', pady=50, padx=50, relief="groove", borderwidth=2,
+                         font=("Roboto", 20))
     drop_area.pack(pady=30, padx=30)  # Add some padding to make the border visible
 
     perform_vlookup_button = ttk.Button(root, text="Perform VLook-Up to new file",
                                         command=lambda: perform_vlookup(perform_vlookup_button), style="TButton")
-    perform_vlookup_button.pack(pady=10)
+    perform_vlookup_button.pack(pady=20)
 
     # Register label as a drop target
     drop_area.drop_target_register(DND_FILES)
@@ -184,6 +193,6 @@ def setup_gui(root):
 if __name__ == "__main__":
     root = TkinterDnD.Tk()
     root.title('File Processor')
-    root.geometry('800x600')  # Set the window size to be bigger
+    root.geometry('700x600')  # Set the window size to be bigger
     setup_gui(root)
     root.mainloop()
